@@ -28,13 +28,7 @@ const render = require("./lib/htmlRenderer");
 // information; write your code to ask different questions via inquirer depending on
 // employee type.
 
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
-
-inquirer.prompt([
+const employeeQuestions = [
     {
         type: "input",
         name: "name",
@@ -47,52 +41,129 @@ inquirer.prompt([
     },
     {
         type: "input",
-        name: "id",
+        name: "email",
         message: "What is the employee's email address?"
     },
+];
+const newEmployee = [
+    {
+        type: "list",
+        name: "addEmployee",
+        message: "Would you like to add an employee to the team?",
+        choices: [
+            "Yes",
+            "No",
+        ]
+    },
+];
+const employeeType = [
     {
         type: "list",
         name: "position",
-        message: "What is the employee's position?",
+        message: "What kind of employee would you like to add?",
         choices: [
-            "Manager",
             "Engineer",
             "Intern",
         ]
+    },
+];
+const managerQuestion = [
+    {
+        type: "input",
+        name: "name",
+        message: "What is the Managers's name?"
+    },
+    {
+        type: "input",
+        name: "id",
+        message: "What is the Mangers's id number?"
+    },
+    {
+        type: "input",
+        name: "email",
+        message: "What is the Managers's email address?"
     },
     {
         type: "input",
         name: "officeNumber",
         message: "What is the Manager's office number?",
-        when: function(answers) {
-            return answers.position === "Manager";
-        }
+    }
+];
+const engineerQuestions = [
+    {
+        type: "input",
+        name: "name",
+        message: "What is the Engineer's name?"
+    },
+    {
+        type: "input",
+        name: "id",
+        message: "What is the Engineer's id number?"
+    },
+    {
+        type: "input",
+        name: "email",
+        message: "What is the Engineer's email address?"
     },
     {
         type: "input",
         name: "gitHub",
         message: "What is the Engineer's GitHub username?",
-        when: function(answers) {
-            return answers.position === "Engineer";
-        }
+    },
+];
+const internQuestions = [
+    {
+        type: "input",
+        name: "name",
+        message: "What is the Intern's name?"
+    },
+    {
+        type: "input",
+        name: "id",
+        message: "What is the Intern's id number?"
+    },
+    {
+        type: "input",
+        name: "email",
+        message: "What is the Intern's email address?"
     },
     {
         type: "input",
         name: "school",
         message: "What school does the Intern go to?",
-        when: function(answers) {
-            return answers.position === "Intern";
-        }
-    },
-]).then(function(data) {
-    
-    fs.writeFile("./output/teamsite.html", render, function(err) {
+    }
+];
+// Build team member functions
 
-        if (err) {
-          return console.log(err);
-        }
-    
-        console.log("Success!");
-    
-      });
-});
+function buildTeam() {
+    console.log("Let's create a new team and start with the manager.")
+    inquirer.prompt(managerQuestion).then(function(newManager) {
+        console.log(newManager);
+        console.log("Now let's add some members to the team.")
+        teamMembers();
+    });
+};
+
+function teamMembers() {
+    inquirer.prompt(newEmployee).then(function (member) {
+        if (member.addEmployee === "Yes") {
+            inquirer.prompt(employeeType).then(function (employeeType) {
+                if (employeeType.position === "Engineer") {
+                    inquirer.prompt(engineerQuestions).then(function (engineer) {
+                        console.log(engineer);
+                        teamMembers();
+                    });
+                } else {
+                    inquirer.prompt(internQuestions).then(function (intern) {
+                        console.log(intern);
+                        teamMembers();
+                    });
+                };
+            });
+        } else {
+            console.log("Team created!")
+        };
+    });
+};
+
+buildTeam();
