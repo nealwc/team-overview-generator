@@ -10,23 +10,7 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
-
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
-
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
-
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
-
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
+const employees = [];
 
 const employeeQuestions = [
     {
@@ -133,13 +117,18 @@ const internQuestions = [
         message: "What school does the Intern go to?",
     }
 ];
-// Build team member functions
 
+// Function to push team member date to create team .html page
+function renderTeam() {
+    fs.writeFileSync(outputPath, render(employees));
+}
+// Build team member functions
 function buildTeam() {
     console.log("Let's create a new team and start with the manager.")
     inquirer.prompt(managerQuestion).then(function(newManager) {
-        console.log(newManager);
-        console.log("Now let's add some members to the team.")
+        const teamManager = new Manager (newManager.name, newManager.id, newManager.email, newManager.officeNumber);
+        employees.push(teamManager);
+        console.log("Now let's add some members to the team.");
         teamMembers();
     });
 };
@@ -147,20 +136,23 @@ function buildTeam() {
 function teamMembers() {
     inquirer.prompt(newEmployee).then(function (member) {
         if (member.addEmployee === "Yes") {
-            inquirer.prompt(employeeType).then(function (employeeType) {
-                if (employeeType.position === "Engineer") {
-                    inquirer.prompt(engineerQuestions).then(function (engineer) {
-                        console.log(engineer);
+            inquirer.prompt(employeeType).then(function (employeePosition) {
+                if (employeePosition.position === "Engineer") {
+                    inquirer.prompt(engineerQuestions).then(function (newEngineer) {
+                        const teamEngineer = new Engineer (newEngineer.name, newEngineer.id, newEngineer.email, newEngineer.github);
+                        employees.push(teamEngineer);
                         teamMembers();
                     });
                 } else {
-                    inquirer.prompt(internQuestions).then(function (intern) {
-                        console.log(intern);
+                    inquirer.prompt(internQuestions).then(function (newIntern) {
+                        const teamIntern = new Intern (newIntern.name, newIntern.id, newIntern.email, newIntern.school);
+                        employees.push(teamIntern);
                         teamMembers();
                     });
                 };
             });
         } else {
+            renderTeam();
             console.log("Team created!")
         };
     });
