@@ -21,4 +21,4 @@ Jest tests for the classes are found in the test folder. Tests can be run in the
 
 ## Demonstration
 
-A video of the demonstration is included in the resources folder and can also be found [here](https://drive.google.com/drive/folders/1XZqrdykONBo_f2cL7_fMUSLpXrOTiUjp?usp=sharing).
+A video demonstrating the application can be found [here](https://drive.google.com/drive/folders/1XZqrdykONBo_f2cL7_fMUSLpXrOTiUjp?usp=sharing).
