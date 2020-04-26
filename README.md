@@ -19,3 +19,6 @@ Generated HTML file can be found in the output folder
 
 Jest tests for the classes are found in the test folder. Tests can be run in the terminal with `npm run test`
 
+## Demonstration
+
+A video of the demonstration is included in the resources folder and can also be found [here](https://drive.google.com/drive/folders/1XZqrdykONBo_f2cL7_fMUSLpXrOTiUjp?usp=sharing).
