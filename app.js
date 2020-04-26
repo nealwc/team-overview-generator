@@ -55,17 +55,17 @@ const managerQuestion = [
     {
         type: "input",
         name: "name",
-        message: "What is the Managers's name?"
+        message: "What is the Manager's name?"
     },
     {
         type: "input",
         name: "id",
-        message: "What is the Mangers's id number?"
+        message: "What is the Manger's id number?"
     },
     {
         type: "input",
         name: "email",
-        message: "What is the Managers's email address?"
+        message: "What is the Manager's email address?"
     },
     {
         type: "input",
@@ -91,7 +91,7 @@ const engineerQuestions = [
     },
     {
         type: "input",
-        name: "gitHub",
+        name: "github",
         message: "What is the Engineer's GitHub username?",
     },
 ];
